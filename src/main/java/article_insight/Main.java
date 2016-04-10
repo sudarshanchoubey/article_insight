@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.webpageclassifier;
+package article_insight;
 import java.io.File;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
@@ -44,7 +44,7 @@ public class Main {
             System.out.println(link.attr("href"));
             String[] temp = link.attr("href").split("/");
             String fileName = temp[temp.length - 1];
-            File f = new File("C:\\Users\\schoubey\\Documents\\NetBeansProjects\\WebpageClassifier\\Nattypages\\" + fileName + ".html");
+            File f = new File("C:\\Users\\schoubey\\Documents\\NetBeansProjects\\article_insight\\Nattypages\\" + fileName + ".html");
             if(f.exists()) {
                 System.out.println("File " + f.getPath() + " exists skipping");
                 f = null;
@@ -69,7 +69,7 @@ public class Main {
             Elements content = page.select("div[class=entry-content]");
             System.out.println("Writing " + fileName);
             try (PrintWriter out = new PrintWriter(
-                    "C:\\Users\\schoubey\\Documents\\NetBeansProjects\\WebpageClassifier\\Nattypages\\" + fileName + ".html")) {
+                    "C:\\Users\\schoubey\\Documents\\NetBeansProjects\\article_insight\\Nattypages\\" + fileName + ".html")) {
                 out.print(content.toString());
                 //}
             }
