@@ -5,19 +5,29 @@
  */
 package article_insight;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.HashSet;
 
 /**
  *
  * @author schoubey
  */
-public class Word {
-    private String wordString;
-    private ArrayList<String> filesHaveWord;
+public class Word implements Serializable {
+    private final String wordString;
+    private final HashSet<String> filesHaveWord;
     public Word(String s) {
-        wordString = s;
+        wordString = s.toLowerCase();
+        filesHaveWord = new HashSet();
     }
+    @Override
     public String toString() {
         return wordString;
+    }
+    public String[] getFilesContainingWord() {
+        String[] s = new String[filesHaveWord.size()];
+        return filesHaveWord.toArray(s);        
+    }
+    public void addFile(String s) {
+        filesHaveWord.add(s);
     }
 }
