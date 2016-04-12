@@ -23,16 +23,24 @@ public class WordHash {
     public WordHash() {
         wordsHashMap = new HashMap<>();
     }
+   /*
+    * Reads all files from a directory and saves the Words found in the files
+    * in a HashMap. 
+    * count is just a test variable set it to zero to go through all files, set
+    * to a positive number to limit the number of files being read.
+    */
     private void fillHashMapFromDirectory(File directory, int count) {
         File[] filesInDir = directory.listFiles();
+        if (count == 0) {
+            count = filesInDir.length;
+        }
         if (filesInDir != null) {
             for (File article : filesInDir) {
-                System.out.println("File being read " + article.toString());
-                String text = getTextFromHTML(article.toString());
-                if (count-- == 0) {
+                if(count-- == 0) {
                     break;
                 }
-                //ArrayList<String> wordsInFile = getWordsFromText(text);
+                System.out.println("File being read " + article.toString());
+                String text = getTextFromHTML(article.toString());
                 String[] allWords = text.split("\\W+");
                 for (String oneWord : allWords) {
                     oneWord = oneWord.toLowerCase();
@@ -49,24 +57,33 @@ public class WordHash {
             }
         }
     }
-    
+   /*
+    * Read a file and return its contents as a string.
+    */
     private static String readFile(String path) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded);        
     }
+   /*
+    * Read contents of an HTML string and return only the text present in the
+    * body tag.
+    */
     private static String getTextFromHTML(String p) {
         String html;
         try {
             html = readFile(p);
         } catch(Exception e) {
             System.out.println("Could not read File:" + p + "\n");
+            e.printStackTrace();
             return null;
         }
         Document doc = Jsoup.parse(html);
         String text = doc.body().text();
         return text;
     }
-    
+   /*
+    * Save the contents of the HashMap to a file.
+    */ 
     public void saveToFile(String filePath) {
         try {
             FileOutputStream fs = new FileOutputStream(filePath);
@@ -78,6 +95,9 @@ public class WordHash {
             i.printStackTrace();
         }
     }
+   /*
+    * Print the word and the files containing the word to console.
+    */ 
     public void printDetailsForWord(String s) {
         Word word = wordsHashMap.get(s);
         if (word != null) {
